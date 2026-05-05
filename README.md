@@ -68,7 +68,7 @@ The result should be read narrowly. It shows that object-specific wording can do
 
 It does not show that false captions generally beat true captions. In the main diagnostic, the fully correct positive caption usually remains top-ranked.
 
-It also does not claim that CLIP-style models are bag-of-words systems or that they never represent negation. The project isolates a specific scoring behavior under frozen embeddings and controlled caption choices.
+The project isolates a specific scoring behavior under frozen embeddings and controlled caption choices.
 
 Core claim:
 
