@@ -21,9 +21,19 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-openclip = ["open_clip_torch>=2.24"]
-siglip = ["open_clip_torch>=2.24", "transformers>=4.40"]
-dev = ["pytest>=7.4", "ruff>=0.4", "mypy>=1.8", "pandas-stubs"]
+openclip = [
+  "open_clip_torch>=2.24",
+]
+siglip = [
+  "open_clip_torch>=2.24",
+  "transformers>=4.40",
+]
+dev = [
+  "pytest>=7.4",
+  "ruff>=0.4",
+  "mypy>=1.8",
+  "pandas-stubs",
+]
 
 [tool.setuptools.packages.find]
 where = ["src"]
