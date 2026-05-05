@@ -1,0 +1,21 @@
+pair_id,caption_role,caption_text,token_count,contains_target_object,contains_scene_word,contains_negation_marker
+core,false_negated,an image with no dog,5,1,0,1
+core,partial_generic,an image of a grassy field,6,0,1,0
+core,true_detailed_generic,an image of a grassy field with an animal,9,0,1,0
+core,positive_reference,an image of a dog on a grassy field,9,1,1,0
+photo,false_negated,a photo with no dog,5,1,0,1
+photo,partial_generic,a photo of a grassy field,6,0,1,0
+photo,true_detailed_generic,a photo of a grassy field with an animal,9,0,1,0
+photo,positive_reference,an image of a dog on a grassy field,9,1,1,0
+visible,false_negated,no dog is visible in this image,7,1,0,1
+visible,partial_generic,a grassy field,3,0,1,0
+visible,true_detailed_generic,a grassy field with a visible animal,7,0,1,0
+visible,positive_reference,a grassy field with a visible dog,7,1,1,0
+without,false_negated,an image without a dog,5,1,0,1
+without,partial_generic,an image of grass,4,0,1,0
+without,true_detailed_generic,an image of grass with an animal,7,0,1,0
+without,positive_reference,a grassy field with a dog,6,1,1,0
+field,false_negated,a grassy field with no dog,6,1,1,1
+field,partial_generic,a grassy field,3,0,1,0
+field,true_detailed_generic,a grassy field with an animal,6,0,1,0
+field,positive_reference,a grassy field with a dog,6,1,1,0

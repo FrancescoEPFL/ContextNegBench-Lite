@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import platform
 import sys
 import time
 from pathlib import Path
@@ -19,6 +20,7 @@ from negcompbench.eval.schema_validation import validate_known_result_files  # n
 PUBLIC_RESULTS = [
     Path("results/model_matrix_summary/dog_grass_by_model.csv"),
     Path("results/model_matrix_summary/final_contextneg_by_model.csv"),
+    Path("results/model_matrix_summary/model_manifest.csv"),
     Path("results/model_matrix_summary/summary.md"),
     Path("results/human_sanity_table.csv"),
 ]
@@ -81,6 +83,7 @@ def run_full(output: Path) -> int:
         "description": "Frozen public result table validation and fingerprints.",
         "dog_grass_rows": int(len(dog)),
         "final_contextneg_rows": int(len(final)),
+        "environment": environment_versions(),
         "fingerprints": fingerprints,
     }
     (output / "result_fingerprints.json").write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8")
@@ -94,6 +97,27 @@ def sha256(path: Path) -> str:
         for chunk in iter(lambda: handle.read(1024 * 1024), b""):
             digest.update(chunk)
     return digest.hexdigest()
+
+
+def environment_versions() -> dict[str, str]:
+    versions = {
+        "python": platform.python_version(),
+        "platform": platform.platform(),
+        "pandas": pd.__version__,
+    }
+    try:
+        import torch
+
+        versions["torch"] = torch.__version__
+    except Exception:
+        versions["torch"] = "not importable"
+    try:
+        import open_clip
+
+        versions["open_clip"] = getattr(open_clip, "__version__", "unknown")
+    except Exception:
+        versions["open_clip"] = "not importable"
+    return versions
 
 
 if __name__ == "__main__":

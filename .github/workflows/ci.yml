@@ -39,5 +39,11 @@ jobs:
       - name: Validate public result schemas
         run: python scripts/validate_result_schemas.py
 
+      - name: Validate frozen public tables
+        run: python scripts/reproduce_paper_tables.py --full
+
+      - name: Run license-safe synthetic demo
+        run: python scripts/reproduce_paper_tables.py --small
+
       - name: Run lightweight smoke test
         run: python scripts/smoke_test.py

@@ -214,6 +214,16 @@ python scripts/reproduce_paper_tables.py --small
 python scripts/validate_result_schemas.py
 ```
 
+Status:
+
+| item | status |
+| --- | --- |
+| Fully reproducible small demo | yes |
+| Full experiment reproducible from this repo alone | partially, because reviewed web images are not redistributed |
+| Public result validation | yes |
+| Frozen result summaries included | yes |
+| CI checks compile, tests, lint, type checks, schema validation, and small/full reproduction helpers | yes |
+
 What each path requires:
 
 | path | command | expected time | needs GPU | needs reviewed web data | output |
@@ -353,6 +363,17 @@ flowchart LR
 - Scenario choice matters: `person_beach` is cleaner than `bicycle_street`, while `kitchen_table` is strongly model-dependent.
 - True-but-generic captions are vulnerable; true detailed-generic captions reduce the effect.
 - The text-space negation direction is structured, but image-text ranking does not treat it as a hard logical constraint.
+
+## Known Limitations
+
+- The main dog/grass dataset has 74 reviewed images, so it is a diagnostic set, not a large benchmark.
+- Reviewed web images are not redistributed for licensing reasons; full reruns require recreating and manually reviewing local datasets.
+- Results are prompt-sensitive. The project reports multiple prompt forms and keeps full prompt-pair rows in the public CSVs.
+- The model family is limited to CLIP-style contrastive encoders through OpenCLIP presets.
+- These experiments measure scoring behavior, not causal model internals.
+- The synthetic sample dataset is only a pipeline demo; it is not evidence for the main research claim.
+
+More detail is in [docs/limitations.md](docs/limitations.md), [docs/prompt_sensitivity.md](docs/prompt_sensitivity.md), and [docs/lexical_bias_baselines.md](docs/lexical_bias_baselines.md).
 
 ## Repository Map
 

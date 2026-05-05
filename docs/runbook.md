@@ -147,6 +147,8 @@ python -m ruff check src scripts tests
 python -m mypy src/negcompbench/eval/schema_validation.py scripts/reproduce_paper_tables.py scripts/validate_result_schemas.py
 python -m pytest -q
 python scripts/validate_result_schemas.py
+python scripts/reproduce_paper_tables.py --full
+python scripts/reproduce_paper_tables.py --small
 ```
 
 ## 9. Aggregate Model Matrix
@@ -169,4 +171,10 @@ Run the lightweight sample pipeline:
 
 ```powershell
 python scripts/reproduce_paper_tables.py --small
+```
+
+Compute the simple lexical-bias baseline table:
+
+```powershell
+python scripts/analyze_lexical_bias_baselines.py
 ```

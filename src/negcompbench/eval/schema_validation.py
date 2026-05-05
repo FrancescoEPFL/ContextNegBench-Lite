@@ -30,6 +30,10 @@ SCHEMAS: dict[str, CsvSchema] = {
         required_columns=frozenset({"scenario", "scene", "object", "root", "n_reviewed_with_object", "n_reviewed_without_object"}),
         numeric_columns=frozenset({"n_reviewed_with_object", "n_reviewed_without_object"}),
     ),
+    "model_manifest": CsvSchema(
+        name="model_manifest",
+        required_columns=frozenset({"model", "backend", "architecture", "pretrained_weights", "device", "date"}),
+    ),
 }
 
 
@@ -65,6 +69,7 @@ def validate_known_result_files(root: str | Path) -> list[str]:
         (base / "results" / "model_matrix_summary" / "dog_grass_by_model.csv", SCHEMAS["dog_grass_by_model"]),
         (base / "results" / "model_matrix_summary" / "final_contextneg_by_model.csv", SCHEMAS["final_contextneg_by_model"]),
         (base / "results" / "human_sanity_table.csv", SCHEMAS["human_sanity_table"]),
+        (base / "results" / "model_matrix_summary" / "model_manifest.csv", SCHEMAS["model_manifest"]),
     ]
     errors: list[str] = []
     for path, schema in checks:

@@ -13,6 +13,8 @@ ContextNegBench-Lite sits between CLIP compositionality diagnostics and recent n
 - VL-CheckList evaluates objects, attributes, and relations.
 - ARO studies attribute, relation, and order sensitivity and is especially relevant to bag-of-words-like behavior.
 - SugarCrepe shows that many compositionality benchmarks are hackable and need careful hard-negative design.
+- VALSE evaluates linguistic phenomena such as existence, plurality, counting, relations, and actions in vision-language models.
+- CREPE-style compositionality evaluations are relevant because they stress systematic recombination of objects, attributes, and relations.
 
 ## Negation and Text-Encoder Bottlenecks
 

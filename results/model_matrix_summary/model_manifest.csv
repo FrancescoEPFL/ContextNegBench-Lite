@@ -1,0 +1,7 @@
+model,backend,architecture,pretrained_weights,tokenizer_dependency,device,date
+openclip_rn50,open_clip,RN50,openai,open_clip tokenizer,mixed local CPU/GPU runs,2026-05-05
+openclip_vit_b16_openai,open_clip,ViT-B-16,openai,open_clip tokenizer,mixed local CPU/GPU runs,2026-05-05
+openclip_vit_b16_siglip,open_clip,ViT-B-16-SigLIP,webli,transformers AutoTokenizer,mixed local CPU/GPU runs,2026-05-05
+openclip_vit_b32,open_clip,ViT-B-32,laion2b_s34b_b79k,open_clip tokenizer,mixed local CPU/GPU runs,2026-05-05
+openclip_vit_b32_datacomp,open_clip,ViT-B-32,datacomp_m_s128m_b4k,open_clip tokenizer,mixed local CPU/GPU runs,2026-05-05
+openclip_vit_b32_openai,open_clip,ViT-B-32,openai,open_clip tokenizer,mixed local CPU/GPU runs,2026-05-05
