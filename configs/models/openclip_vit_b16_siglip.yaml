@@ -1,0 +1,5 @@
+model: openclip_vit_b16_siglip
+model_name: ViT-B-16-SigLIP
+pretrained: webli
+batch_size: 12
+device: auto

@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "negcompbench-lite"
+version = "0.1.0"
+description = "A lightweight diagnostic benchmark for negation and compositional reasoning in CLIP-like models."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "NegCompBench-Lite contributors" }]
+dependencies = [
+  "numpy>=1.24",
+  "pandas>=2.0",
+  "pillow>=10.0",
+  "matplotlib>=3.7",
+  "pyyaml>=6.0",
+  "tqdm>=4.66",
+  "torch>=2.1",
+]
+
+[project.optional-dependencies]
+openclip = ["open_clip_torch>=2.24"]
+siglip = ["open_clip_torch>=2.24", "transformers>=4.40"]
+dev = ["pytest>=7.4"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]

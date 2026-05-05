@@ -1,0 +1,5 @@
+model: openclip_vit_b32
+model_name: ViT-B-32
+pretrained: laion2b_s34b_b79k
+batch_size: 16
+device: auto

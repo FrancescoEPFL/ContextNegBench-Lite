@@ -1,0 +1,35 @@
+from __future__ import annotations
+
+import argparse
+import sys
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "src"))
+
+from negcompbench.eval.logical_connector_embeddings import run_logical_connector_embedding_analysis
+
+
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description="Analyze CLIP text embeddings for logical connector templates.")
+    parser.add_argument("--model", default="openclip_vit_b32")
+    parser.add_argument("--output", default="results/logical_connector_embeddings")
+    parser.add_argument("--seed", type=int, default=42)
+    parser.add_argument("--device", default="auto")
+    return parser.parse_args()
+
+
+def main() -> int:
+    args = parse_args()
+    run_logical_connector_embedding_analysis(
+        model_name=args.model,
+        output_dir=args.output,
+        seed=args.seed,
+        device=args.device,
+    )
+    print(f"Wrote logical connector embedding analysis to {args.output}")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

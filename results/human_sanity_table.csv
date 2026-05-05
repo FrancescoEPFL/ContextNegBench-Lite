@@ -1,0 +1,6 @@
+scenario,scene,object,root,review_protocol,labeling_models_used,n_reviewed_with_object,n_reviewed_without_object,n_annotations_with_object,n_annotations_without_object,n_review_status_accepted,n_review_status_rejected,n_source_rows,has_annotations,has_review_status
+kitchen_table,kitchen,table,data/context_neg/kitchen_table,manual folder review,none,193,152,193,152,398,0,391,True,True
+street_car,street,car,data/context_neg/street_car,manual folder review,none,170,142,170,142,351,0,374,True,True
+cat_sofa,living room,cat,data/context_neg/cat_sofa,manual folder review,none,37,35,37,35,72,0,58,True,True
+person_beach,beach,person,data/context_neg/person_beach,manual folder review,none,30,35,30,35,67,0,67,True,True
+bicycle_street,street,bicycle,data/context_neg/bicycle_street,manual folder review,none,36,33,36,33,69,0,70,True,True

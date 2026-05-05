@@ -1,0 +1,10 @@
+numpy>=1.24
+pandas>=2.0
+pillow>=10.0
+matplotlib>=3.7
+pyyaml>=6.0
+tqdm>=4.66
+torch>=2.1
+open_clip_torch>=2.24
+transformers>=4.40
+pytest>=7.4

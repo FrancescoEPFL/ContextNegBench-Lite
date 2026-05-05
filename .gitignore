@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+
+# Logs and local runs
+logs/
+*.log
+
+# Local datasets and downloaded web images
+data/context_neg/**/raw/
+data/context_neg/**/reviewed/
+data/context_neg/**/metadata/
+data/context_neg/**/review_gallery.html
+data/context_neg/**/annotations.jsonl
+data/context_neg/**/image_index.csv
+data/context_neg/**/dataset_report.md
+data/context_neg/enrichment_log.csv
+data/context_neg/enrichment_run_summary.md
+
+# Heavy/generated result folders
+results/model_matrix/
+results/archive/
+results/smoke_*/
+results/*openclip_smoke*/
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

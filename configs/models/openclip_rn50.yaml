@@ -1,0 +1,5 @@
+model: openclip_rn50
+model_name: RN50
+pretrained: openai
+batch_size: 16
+device: auto
