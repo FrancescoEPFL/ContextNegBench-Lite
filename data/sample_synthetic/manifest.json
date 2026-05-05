@@ -31,9 +31,9 @@
   "description": "Small generated geometric dataset for license-safe pipeline demos.",
   "files": [
     {
-      "bytes": 11710,
+      "bytes": 11695,
       "path": "annotations.jsonl",
-      "sha256": "8b979cfe9c5d8a725a5de0681f999d4b2b345ce0310d077e2c1cf3bb3f050e67"
+      "sha256": "a0f925c5f594f76952a4fa4aeb7e599e9a3d97a50449c5392cc3004013b0f615"
     },
     {
       "bytes": 1105,
@@ -109,6 +109,11 @@
       "bytes": 1078,
       "path": "images/spatial_left_right_000005.png",
       "sha256": "f7ed2733cef70314d49d8e2778c1535021bc1dc9087f3392db919bb0f438ca3b"
+    },
+    {
+      "bytes": 399,
+      "path": "README.md",
+      "sha256": "905e0d7a51032701ede37551a332497ce903b65f2846f654389599b2423953ee"
     }
   ],
   "license": "CC0-1.0",

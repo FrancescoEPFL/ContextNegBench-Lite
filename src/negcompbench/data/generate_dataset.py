@@ -76,7 +76,7 @@ def generate_dataset(config: dict, output_dir: str | Path) -> list[Annotation]:
             annotations.append(
                 Annotation(
                     image_id=ann.image_id,
-                    image_path=str(Path("images") / image_path.name),
+                    image_path=(Path("images") / image_path.name).as_posix(),
                     task_type=ann.task_type,
                     objects=ann.objects,
                     attributes=ann.attributes,
