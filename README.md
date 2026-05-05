@@ -9,18 +9,19 @@ It asks whether a false negated caption that names a visible object can outrank 
 
 ## Reviewer Summary
 
-- This repository is a lightweight diagnostic study of CLIP-style vision-language models, focused on negation, object specificity, and caption ranking.
-- Main result: false negated captions that mention a visible object can often outrank true but underspecified captions, while the fully correct positive caption usually remains top-ranked.
-- It does **not** claim that CLIP never understands negation, that CLIP is purely bag-of-words, or that false captions generally beat true captions.
-- The project is relevant to VLM evaluation and research engineering because it packages a narrow failure mode into reproducible scripts, frozen summary tables, CI checks, and transparent limitations.
-- Start with [PROJECT_CARD.md](PROJECT_CARD.md), [results/model_matrix_summary/summary.md](results/model_matrix_summary/summary.md), and [docs/methodology.md](docs/methodology.md).
+- This repository is a lightweight diagnostic study of CLIP-style vision-language models.
+- It tests whether false negated captions that mention a visible object can outrank true but underspecified captions.
+- Main result: false object-specific negation often beats true generic captions, but rarely beats the fully correct positive caption.
+- The claim is narrow: this is not evidence that false captions generally beat true captions.
+- Best files to inspect: [results/model_matrix_summary/summary.md](results/model_matrix_summary/summary.md), [docs/methodology.md](docs/methodology.md), [docs/limitations.md](docs/limitations.md), and [scripts/run_model_matrix.py](scripts/run_model_matrix.py).
 
 ## Project Status
 
 | item | status |
 | --- | --- |
 | Version | `v0.1.0` research artifact |
-| Scope | frozen-embedding diagnostic, not a production benchmark |
+| Scope | frozen-embedding diagnostic, not a production benchmark or leaderboard |
+| Training | no training or fine-tuning |
 | Intended use | low-compute evaluation and transparent result inspection |
 | Small demo | reproducible from the public repo |
 | Full experiment rerun | requires local reviewed images and model downloads |
@@ -29,37 +30,65 @@ It asks whether a false negated caption that names a visible object can outrank 
 
 ## Run in 2 Minutes
 
-Install and verify the code path without reviewed images or model downloads:
+### No data or model downloads required
 
-```powershell
+```bash
 python -m pip install -e ".[dev]"
+python -m compileall src scripts
 python -m pytest -q
 python scripts/smoke_test.py
 ```
 
-Inspect and validate public result artifacts:
+### Inspect public results
 
-```powershell
+```bash
 python scripts/reproduce_paper_tables.py --small
 python scripts/reproduce_paper_tables.py --full
 python scripts/validate_result_schemas.py
 ```
 
-What to inspect first:
+### Requires local reviewed images or model downloads
 
-- [PROJECT_CARD.md](PROJECT_CARD.md): one-page summary of what was built and what skills it demonstrates.
-- [results/model_matrix_summary/summary.md](results/model_matrix_summary/summary.md): compact frozen result summary.
-- [results/full_research_report.md](results/full_research_report.md): complete narrative report.
-- [scripts/README.md](scripts/README.md): main entrypoints by task.
-- [results/README.md](results/README.md): result folder guide.
+```bash
+python scripts/run_dog_grass_false_negation_analysis.py \
+  --root data/context_neg/dog_grass_false_negation \
+  --model openclip_vit_b32 \
+  --output results/dog_grass_false_negation \
+  --bootstrap-samples 1000 \
+  --batch-size 8
+```
 
-Commands that require local reviewed images and/or model downloads:
+Full model-matrix reruns require reviewed local images and OpenCLIP/SigLIP weight downloads.
 
-| task | command | requires |
-| --- | --- |
-| Dog/grass rerun | `python scripts/run_dog_grass_false_negation_analysis.py ...` | reviewed dog/grass images, OpenCLIP weights |
-| With/without scenarios | `python scripts/run_final_contextneg_analysis.py ...` | reviewed scenario images, OpenCLIP weights |
-| Model matrix | `python scripts/run_model_matrix.py ...` | reviewed images, multiple model downloads |
+## What to Inspect First
+
+1. [README.md](README.md): short narrative, key result, and reproduction path.
+2. [results/model_matrix_summary/summary.md](results/model_matrix_summary/summary.md): compact frozen model-matrix summary.
+3. [docs/methodology.md](docs/methodology.md): dataset construction, scoring, and aggregation details.
+4. [docs/limitations.md](docs/limitations.md): scope and threats to validity.
+5. [scripts/run_model_matrix.py](scripts/run_model_matrix.py): full experiment orchestration.
+6. [src/negcompbench/eval/](src/negcompbench/eval/): metric and evaluation implementation.
+
+## Motivating Example
+
+Image: a dog on grass
+
+Core comparison:
+
+A. `an image with no dog`
+
+B. `an image of a grassy field`
+
+A is false but object-specific: it names the visible object `dog`.
+B is true but underspecified: it describes the scene but omits the salient object.
+
+The core diagnostic asks whether A can score above B.
+
+As a separate control, we also compare against the fully correct caption:
+
+C. `an image of a dog on a grassy field`
+
+The control usually remains top-ranked, which prevents the result from being misread as "false beats truth."
 
 ![Diagnostic example](results/selected_figures/main_diagnostic_example.png)
 
@@ -136,20 +165,20 @@ Supporting analyses:
 - logical connector embedding probes
 - lexical-bias baseline for caption length and object-word overlap
 
-## Reviewer Entry Points
+## Main Entrypoints
 
-| task | command or file |
-| --- | --- |
-| Smoke test | `python scripts/smoke_test.py` |
-| Small demo | `python scripts/reproduce_paper_tables.py --small` |
-| Validate frozen tables | `python scripts/reproduce_paper_tables.py --full` |
-| Validate result schemas | `python scripts/validate_result_schemas.py` |
-| Dog/grass analysis | `scripts/run_dog_grass_false_negation_analysis.py` |
-| Model matrix | `scripts/run_model_matrix.py` |
-| Result overview | `results/model_matrix_summary/summary.md` |
-| Full report | `results/full_research_report.md` |
-| Script guide | `scripts/README.md` |
-| Docs index | `docs/index.md` |
+| category | entrypoint | purpose |
+| --- | --- | --- |
+| Smoke test | `python scripts/smoke_test.py` | verify the public code path without model downloads |
+| Public result validation | `python scripts/reproduce_paper_tables.py --full` | regenerate summary tables from frozen CSVs |
+| Schema validation | `python scripts/validate_result_schemas.py` | check public result table schemas |
+| Core dog/grass diagnostic | `scripts/run_dog_grass_false_negation_analysis.py` | rerun the main diagnostic with reviewed local images |
+| Supporting diagnostics | `scripts/run_final_contextneg_analysis.py` | rerun with/without scenario analyses |
+| Model matrix | `scripts/run_model_matrix.py` | orchestrate multi-model analyses |
+| Aggregation | `scripts/aggregate_model_matrix.py` | aggregate per-model result folders |
+| Methodology | `docs/methodology.md` | dataset, scoring, and bootstrap procedure |
+| Limitations | `docs/limitations.md` | scope and threats to validity |
+| Results summary | `results/model_matrix_summary/summary.md` | compact public summary of frozen results |
 
 ## Methodology In Brief
 
@@ -220,13 +249,13 @@ More detail is in [docs/limitations.md](docs/limitations.md), [docs/prompt_sensi
 
 Install dependencies:
 
-```powershell
+```bash
 python -m pip install -r requirements.txt
 ```
 
 Validate the public artifact:
 
-```powershell
+```bash
 python -m compileall src scripts
 python -m ruff check src scripts tests
 python -m ruff format --check src scripts tests
@@ -239,12 +268,12 @@ python scripts/reproduce_paper_tables.py --small
 
 Rerun the dog/grass diagnostic after recreating reviewed local data:
 
-```powershell
-python scripts/run_dog_grass_false_negation_analysis.py `
-  --root data/context_neg/dog_grass_false_negation `
-  --model openclip_vit_b32 `
-  --output results/dog_grass_false_negation `
-  --bootstrap-samples 1000 `
+```bash
+python scripts/run_dog_grass_false_negation_analysis.py \
+  --root data/context_neg/dog_grass_false_negation \
+  --model openclip_vit_b32 \
+  --output results/dog_grass_false_negation \
+  --bootstrap-samples 1000 \
   --batch-size 8
 ```
 

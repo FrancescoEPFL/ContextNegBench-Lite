@@ -16,7 +16,7 @@ Start here:
 
 The reviewed web-image datasets are not included. Public result summaries are frozen in `model_matrix_summary/` and can be validated with:
 
-```powershell
+```bash
 python scripts/reproduce_paper_tables.py --full
 python scripts/validate_result_schemas.py
 ```

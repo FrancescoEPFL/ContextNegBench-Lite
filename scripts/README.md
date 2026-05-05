@@ -42,7 +42,7 @@ The scripts are kept in one folder for stable command paths. Use this guide to i
 
 ## Recommended First Commands
 
-```powershell
+```bash
 python scripts/smoke_test.py
 python scripts/reproduce_paper_tables.py --small
 python scripts/reproduce_paper_tables.py --full
