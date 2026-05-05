@@ -11,6 +11,7 @@ from negcompbench.eval.context_neg import resolve_image_path
 from negcompbench.eval.run_eval import build_ranker
 from negcompbench.utils.io import ensure_dir, read_jsonl
 
+
 def build_prompt_pairs(scene: str, object_name: str) -> list[tuple[str, str, str]]:
     object_form = english_object_form(scene, object_name)
     object_np = object_form.noun_phrase
@@ -252,9 +253,7 @@ def make_pairwise_plots(pairwise_summary: pd.DataFrame, perturbation_summary: pd
         "Rate",
     )
 
-    uppercase = perturbation_summary[
-        perturbation_summary["metric"].isin(["mean_uppercase_delta_without", "mean_uppercase_delta_no"])
-    ]
+    uppercase = perturbation_summary[perturbation_summary["metric"].isin(["mean_uppercase_delta_without", "mean_uppercase_delta_no"])]
     fig, ax = plt.subplots(figsize=(7, 4))
     ax.bar(uppercase["metric"], uppercase["value"], color="#4d77a8")
     ax.set_title("Uppercase Negation Delta")
@@ -264,9 +263,7 @@ def make_pairwise_plots(pairwise_summary: pd.DataFrame, perturbation_summary: pd
     fig.savefig(output / "uppercase_delta.png", dpi=160)
     plt.close(fig)
 
-    repetition = perturbation_summary[
-        perturbation_summary["metric"].isin(["repetition_gain_positive", "repetition_gain_negative"])
-    ]
+    repetition = perturbation_summary[perturbation_summary["metric"].isin(["repetition_gain_positive", "repetition_gain_negative"])]
     fig, ax = plt.subplots(figsize=(7, 4))
     ax.bar(repetition["metric"], repetition["value"], color="#c7773a")
     ax.set_title("Prompt Repetition Gain")
@@ -292,7 +289,9 @@ def plot_bar(frame: pd.DataFrame, x_col: str, y_col: str, output_path: Path, tit
 
 def write_pairwise_failure_gallery(output_path: str | Path, frame: pd.DataFrame) -> None:
     failures = frame[(~frame["correct"]) | (frame["correct_margin"] < 0.01)].copy()
-    failures["gallery_priority"] = failures.apply(lambda row: abs(row["correct_margin"]) if not row["correct"] else 0.01 - row["correct_margin"], axis=1)
+    failures["gallery_priority"] = failures.apply(
+        lambda row: abs(row["correct_margin"]) if not row["correct"] else 0.01 - row["correct_margin"], axis=1
+    )
     failures = failures.sort_values(["pair_id", "correct", "gallery_priority"], ascending=[True, True, False])
     lines = ["# Pairwise Prompt Failure Gallery", ""]
     if failures.empty:

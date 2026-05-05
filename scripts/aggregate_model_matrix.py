@@ -87,7 +87,11 @@ def write_markdown(path: Path, final: pd.DataFrame, dog: pd.DataFrame) -> None:
     else:
         focus = dog[
             (dog["pair_id"].isin(["core", "field"]))
-            & (dog["metric"].isin(["false_negated_win_rate_over_generic", "false_negated_win_rate_over_detailed_generic", "top_positive_rate"]))
+            & (
+                dog["metric"].isin(
+                    ["false_negated_win_rate_over_generic", "false_negated_win_rate_over_detailed_generic", "top_positive_rate"]
+                )
+            )
         ][["model", "pair_id", "metric", "value", "ci_low", "ci_high", "n"]]
         lines.append(markdown_table(focus))
     lines.extend(["", "## Final ContextNeg Base Metrics", ""])
@@ -96,7 +100,11 @@ def write_markdown(path: Path, final: pd.DataFrame, dog: pd.DataFrame) -> None:
     else:
         focus = final[
             (final["prompt_group"] == "base")
-            & (final["metric"].isin(["mean_false_absence_tolerance", "positive_top_rate", "false_negative_top_rate", "image_condition_separation"]))
+            & (
+                final["metric"].isin(
+                    ["mean_false_absence_tolerance", "positive_top_rate", "false_negative_top_rate", "image_condition_separation"]
+                )
+            )
         ][["model", "scenario", "metric", "value", "ci_low", "ci_high", "n"]]
         lines.append(markdown_table(focus))
     path.write_text("\n".join(lines), encoding="utf-8")

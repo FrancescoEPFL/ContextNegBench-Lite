@@ -6,17 +6,28 @@ ContextNegBench-Lite uses small local image sets collected from the web and manu
 
 | scenario | scene | object | conditions |
 | --- | --- | --- | --- |
+| `sample_synthetic` | generated geometric scenes | shapes | license-safe synthetic demo |
 | `kitchen_table` | kitchen | table | with table / without table |
 | `street_car` | street | car | with cars / without cars |
 | `dog_grass_false_negation` | grassy field | dog | with dog on grass only |
 
-## Planned Extension Datasets
+## Extension Datasets
 
 | scenario | scene | object | purpose |
 | --- | --- | --- | --- |
 | `cat_sofa` | living room | cat | object on common indoor support |
 | `person_beach` | beach | person | salient human object vs empty scene |
 | `bicycle_street` | street | bicycle | vehicle-like object smaller than cars |
+
+## Redistributable Sample
+
+`data/sample_synthetic/` is generated locally and released as CC0-1.0. It contains 15 PNG images, `annotations.jsonl`, and `manifest.json` with SHA-256 hashes. It exists so reviewers can run the pipeline without downloading web images or model weights.
+
+Regenerate it with:
+
+```powershell
+python scripts/generate_sample_synthetic_dataset.py --output data/sample_synthetic --samples-per-task 3 --seed 101
+```
 
 ## Human Review Rules
 

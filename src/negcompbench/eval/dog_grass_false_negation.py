@@ -397,7 +397,12 @@ def compute_image_text_embedding_summary(wide: pd.DataFrame, image_embeddings: n
 def make_dog_grass_plots(wide: pd.DataFrame, summary: pd.DataFrame, text_metrics: pd.DataFrame, plots_dir: Path) -> None:
     plot_margin_distribution(wide, plots_dir / "margin_false_vs_generic_distribution.png")
     plot_detailed_margin_distribution(wide, plots_dir / "margin_false_vs_detailed_generic_distribution.png")
-    plot_summary_metric(summary, "false_negated_win_rate_over_generic", plots_dir / "false_negated_win_rate_by_pair.png", "False Negated Win Rate Over Generic")
+    plot_summary_metric(
+        summary,
+        "false_negated_win_rate_over_generic",
+        plots_dir / "false_negated_win_rate_by_pair.png",
+        "False Negated Win Rate Over Generic",
+    )
     plot_top_caption_distribution(wide, plots_dir / "top_caption_distribution_by_pair.png")
     plot_text_distances(text_metrics, plots_dir / "text_embedding_distances_by_pair.png")
     plot_positive_vs_false_distribution(wide, plots_dir / "positive_vs_false_margin_distribution.png")
@@ -520,7 +525,10 @@ def write_failure_gallery(output_path: str | Path, wide: pd.DataFrame) -> None:
         ),
         (
             "Near Ties Against Generic",
-            wide[wide["margin_false_vs_generic"].abs() < 0.005].assign(abs_margin=lambda frame: frame["margin_false_vs_generic"].abs()).sort_values("abs_margin").head(10),
+            wide[wide["margin_false_vs_generic"].abs() < 0.005]
+            .assign(abs_margin=lambda frame: frame["margin_false_vs_generic"].abs())
+            .sort_values("abs_margin")
+            .head(10),
         ),
     ]
     for title, frame in sections:

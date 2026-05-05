@@ -1,0 +1,9 @@
+{
+  "annotations": "data/sample_synthetic/annotations.jsonl",
+  "batch_size": 8,
+  "model": "text_bow_baseline",
+  "n_samples": 15,
+  "note": "For OpenCLIP models, runtime includes local model loading if weights are not cached.",
+  "runtime_per_sample_sec": 0.083455,
+  "runtime_sec": 1.2518
+}

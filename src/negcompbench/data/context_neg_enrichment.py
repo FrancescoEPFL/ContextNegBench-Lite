@@ -10,8 +10,6 @@ from negcompbench.data.context_neg_dataset import (
     file_sha256,
     make_review_gallery,
     normalize_condition,
-    positive_folder,
-    negative_folder,
     read_csv_rows,
     reviewed_conditions,
     scan_supported_images,

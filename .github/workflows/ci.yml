@@ -24,8 +24,20 @@ jobs:
       - name: Compile source and scripts
         run: python -m compileall src scripts
 
+      - name: Lint
+        run: python -m ruff check src scripts tests
+
+      - name: Format check
+        run: python -m ruff format --check src scripts tests
+
+      - name: Type check focused public utilities
+        run: python -m mypy src/negcompbench/eval/schema_validation.py scripts/reproduce_paper_tables.py scripts/validate_result_schemas.py
+
       - name: Run unit tests
         run: python -m pytest -q
+
+      - name: Validate public result schemas
+        run: python scripts/validate_result_schemas.py
 
       - name: Run lightweight smoke test
         run: python scripts/smoke_test.py

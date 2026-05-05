@@ -316,9 +316,7 @@ def collect_failures(rows: list[dict], languages: list[str]) -> list[dict]:
             if row["condition"] == "without_object":
                 if positive > negative:
                     failure_type = "affirmation_bias" if positive > generic else "negation_failure"
-                    failures.append(
-                        {"row": row, "language": language, "failure_type": failure_type, "margin": positive - negative}
-                    )
+                    failures.append({"row": row, "language": language, "failure_type": failure_type, "margin": positive - negative})
                 if generic > negative:
                     failures.append(
                         {"row": row, "language": language, "failure_type": "generic_caption_bias", "margin": generic - negative}

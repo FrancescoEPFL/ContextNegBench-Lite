@@ -22,9 +22,7 @@ class OpenCLIPRanker(CaptionRanker):
             import open_clip
             import torch
         except ImportError as exc:
-            raise ImportError(
-                "OpenCLIP support requires open_clip_torch. Install with `pip install -r requirements.txt`."
-            ) from exc
+            raise ImportError("OpenCLIP support requires open_clip_torch. Install with `pip install -r requirements.txt`.") from exc
 
         self.open_clip = open_clip
         self.torch = torch

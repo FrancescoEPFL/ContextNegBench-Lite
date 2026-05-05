@@ -13,6 +13,20 @@ python -m pip install ddgs
 
 ## 2. Rate-Limit-Friendly Dataset Enrichment
 
+For a no-download demo path, use the bundled generated sample first:
+
+```powershell
+python scripts/reproduce_paper_tables.py --small
+python scripts/benchmark_runtime_memory.py
+python scripts/validate_result_schemas.py
+```
+
+The sample dataset can be regenerated with:
+
+```powershell
+python scripts/generate_sample_synthetic_dataset.py --output data/sample_synthetic --samples-per-task 3 --seed 101
+```
+
 Dry run first:
 
 ```powershell
@@ -129,7 +143,10 @@ python scripts/run_model_matrix.py `
 
 ```powershell
 python -m compileall src scripts
+python -m ruff check src scripts tests
+python -m mypy src/negcompbench/eval/schema_validation.py scripts/reproduce_paper_tables.py scripts/validate_result_schemas.py
 python -m pytest -q
+python scripts/validate_result_schemas.py
 ```
 
 ## 9. Aggregate Model Matrix
@@ -138,4 +155,18 @@ python -m pytest -q
 python scripts/aggregate_model_matrix.py `
   --root results/model_matrix `
   --output results/model_matrix_summary
+```
+
+## 10. Reproduce Public Tables
+
+Validate and fingerprint the frozen public result tables:
+
+```powershell
+python scripts/reproduce_paper_tables.py --full
+```
+
+Run the lightweight sample pipeline:
+
+```powershell
+python scripts/reproduce_paper_tables.py --small
 ```

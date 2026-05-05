@@ -124,7 +124,9 @@ def format_phrase(template: str, object_name: str) -> str:
     return template.format(object=object_name, article=article)
 
 
-def compute_object_delta_metrics(objects: list[str], pair_groups: list[NegationPairGroup], embedding_map: dict[str, np.ndarray]) -> pd.DataFrame:
+def compute_object_delta_metrics(
+    objects: list[str], pair_groups: list[NegationPairGroup], embedding_map: dict[str, np.ndarray]
+) -> pd.DataFrame:
     rows = []
     for group in pair_groups:
         for object_name in objects:
@@ -211,19 +213,15 @@ def add_axis_projection(group_metrics: pd.DataFrame, delta_units: np.ndarray) ->
     return output
 
 
-def baseline_comparison_rows(pair_group: str, group_metrics: pd.DataFrame, embedding_map: dict[str, np.ndarray], seed: int = 42) -> list[dict]:
+def baseline_comparison_rows(
+    pair_group: str, group_metrics: pd.DataFrame, embedding_map: dict[str, np.ndarray], seed: int = 42
+) -> list[dict]:
     rng = np.random.default_rng(seed)
     objects = group_metrics["object"].to_list()
     real_delta_units = np.vstack(group_metrics["delta_unit"].to_list())
     real_mean = mean_pairwise_cosine(real_delta_units)
-    positive_embeddings = {
-        row["object"]: embedding_map[row["positive_phrase"]]
-        for _, row in group_metrics.iterrows()
-    }
-    negative_embeddings = {
-        row["object"]: embedding_map[row["negative_phrase"]]
-        for _, row in group_metrics.iterrows()
-    }
+    positive_embeddings = {row["object"]: embedding_map[row["positive_phrase"]] for _, row in group_metrics.iterrows()}
+    negative_embeddings = {row["object"]: embedding_map[row["negative_phrase"]] for _, row in group_metrics.iterrows()}
     object_object_units = []
     mismatched_no_units = []
     for object_name in objects:
@@ -272,7 +270,9 @@ def normalize(vector: np.ndarray) -> np.ndarray:
     return vector / norm
 
 
-def make_negation_delta_plots(object_metrics: pd.DataFrame, direction_summary: pd.DataFrame, pca_frame: pd.DataFrame, baseline_frame: pd.DataFrame, plots_dir: Path) -> None:
+def make_negation_delta_plots(
+    object_metrics: pd.DataFrame, direction_summary: pd.DataFrame, pca_frame: pd.DataFrame, baseline_frame: pd.DataFrame, plots_dir: Path
+) -> None:
     plot_bar(
         direction_summary,
         "pair_group",

@@ -172,7 +172,9 @@ def compute_all_metric_cis(pairwise_frames: dict[str, pd.DataFrame], bootstrap_s
     for scenario, frame in pairwise_frames.items():
         for pair_id, group in frame.groupby("pair_id", sort=False):
             for metric in PAIRWISE_METRICS:
-                value, ci_low, ci_high = bootstrap_ci(group, metric, samples=bootstrap_samples, seed=stable_seed(seed, scenario, pair_id, metric))
+                value, ci_low, ci_high = bootstrap_ci(
+                    group, metric, samples=bootstrap_samples, seed=stable_seed(seed, scenario, pair_id, metric)
+                )
                 rows.append(
                     {
                         "scenario": scenario,
@@ -251,10 +253,7 @@ def bootstrap_delta_ci(
 def compute_text_embedding_metrics(config: ScenarioConfig, pairwise_frame: pd.DataFrame, annotations: list[dict], ranker) -> list[dict]:
     generic_caption = annotations[0]["captions"].get("generic_en", f"a photo of a {config.scene}")
     pair_rows = (
-        pairwise_frame[["pair_id", "positive_caption", "negative_caption"]]
-        .drop_duplicates()
-        .sort_values("pair_id")
-        .reset_index(drop=True)
+        pairwise_frame[["pair_id", "positive_caption", "negative_caption"]].drop_duplicates().sort_values("pair_id").reset_index(drop=True)
     )
     captions = [generic_caption]
     for _, row in pair_rows.iterrows():

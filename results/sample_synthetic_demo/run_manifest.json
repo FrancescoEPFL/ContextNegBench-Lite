@@ -1,0 +1,10 @@
+{
+  "mode": "small",
+  "model": "text_bow_baseline",
+  "n_rows": 15,
+  "outputs": [
+    "results.jsonl",
+    "summary.csv"
+  ],
+  "runtime_sec": 1.0628
+}

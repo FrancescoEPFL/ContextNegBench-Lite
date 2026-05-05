@@ -34,7 +34,9 @@ def final_prompt_groups(scenario: str) -> list[PromptGroup]:
     if scenario == "kitchen_table":
         return [
             PromptGroup("base", "a kitchen", "a kitchen with a table", "a kitchen without a table"),
-            PromptGroup("photo_prefix", "a photo of a kitchen", "a photo of a kitchen with a table", "a photo of a kitchen without a table"),
+            PromptGroup(
+                "photo_prefix", "a photo of a kitchen", "a photo of a kitchen with a table", "a photo of a kitchen without a table"
+            ),
             PromptGroup("visible", "a kitchen", "a kitchen with a visible table", "a kitchen with no visible table"),
             PromptGroup("containing", "a kitchen", "a kitchen containing a table", "a kitchen containing no table"),
         ]
@@ -106,7 +108,9 @@ def run_final_contextneg_analysis(
         score_frames.append(scored)
         image_rows.append(compute_image_embedding_metrics(scenario, image_meta, image_embeddings))
         image_bootstrap_rows.append(
-            bootstrap_image_condition_separation(scenario, image_meta, image_embeddings, samples=bootstrap_samples, seed=stable_seed(seed, scenario, "image"))
+            bootstrap_image_condition_separation(
+                scenario, image_meta, image_embeddings, samples=bootstrap_samples, seed=stable_seed(seed, scenario, "image")
+            )
         )
         selected_failure_frames.append(select_failure_cases(scored, max_per_scenario=5))
 
@@ -201,7 +205,9 @@ def score_final_scenario(
         score_matrix = batch_embeddings @ text_matrix.T
         for annotation, scores in zip(batch, score_matrix):
             score_lookup = {caption: float(score) for caption, score in zip(caption_order, scores)}
-            image_meta.append({"image_id": annotation["image_id"], "image_path": annotation["image_path"], "condition": annotation["condition"]})
+            image_meta.append(
+                {"image_id": annotation["image_id"], "image_path": annotation["image_path"], "condition": annotation["condition"]}
+            )
             for group in groups:
                 rows.append(final_score_row(scenario, annotation, group, score_lookup))
         for image in images:
@@ -438,7 +444,9 @@ def failure_strength(row: pd.Series) -> float:
     return 0.0
 
 
-def make_final_plots(final_ci: pd.DataFrame, text_frame: pd.DataFrame, image_frame: pd.DataFrame, scenario_comparison: pd.DataFrame, plots_dir: Path) -> None:
+def make_final_plots(
+    final_ci: pd.DataFrame, text_frame: pd.DataFrame, image_frame: pd.DataFrame, scenario_comparison: pd.DataFrame, plots_dir: Path
+) -> None:
     plot_text_similarity(text_frame, plots_dir / "text_negation_similarity.png")
     plot_ci_metric(final_ci, "mean_positive_specificity_gain", plots_dir / "positive_specificity_gain.png", "Positive Specificity Gain")
     plot_ci_metric(final_ci, "mean_false_absence_tolerance", plots_dir / "false_absence_tolerance.png", "False Absence Tolerance")
@@ -597,7 +605,17 @@ def write_final_report(
         "",
         "Image condition separation measures how far the with-object and without-object centroids are in CLIP image space. A larger separation suggests that scenario-level visual separability matters, not only text negation similarity.",
         "",
-        markdown_table(image_frame[["scenario", "image_condition_separation", "separation_ratio", "within_condition_variance_with", "within_condition_variance_without"]]),
+        markdown_table(
+            image_frame[
+                [
+                    "scenario",
+                    "image_condition_separation",
+                    "separation_ratio",
+                    "within_condition_variance_with",
+                    "within_condition_variance_without",
+                ]
+            ]
+        ),
         "",
         "## 6. Main Finding",
         "",

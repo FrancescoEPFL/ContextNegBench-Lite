@@ -260,7 +260,9 @@ def collect_image_records(root: str | Path, object_name: str = DEFAULT_OBJECT) -
     return records
 
 
-def make_review_gallery(root: str | Path, output_path: str | Path | None = None, scene: str = "kitchen", object_name: str = DEFAULT_OBJECT) -> Path:
+def make_review_gallery(
+    root: str | Path, output_path: str | Path | None = None, scene: str = "kitchen", object_name: str = DEFAULT_OBJECT
+) -> Path:
     root_path = Path(root)
     ensure_context_neg_structure(root_path, object_name)
     records = write_review_status(root_path, object_name)
@@ -290,7 +292,7 @@ def render_gallery_section(root: Path, thumbs_dir: Path, title: str, records: li
             "</article>"
         )
     body = "\n".join(cards) if cards else "<p>No images found.</p>"
-    return f"<section><h2>{html.escape(title)}</h2><div class=\"grid\">{body}</div></section>"
+    return f'<section><h2>{html.escape(title)}</h2><div class="grid">{body}</div></section>'
 
 
 def render_gallery_html(sections: list[str], scene: str = "kitchen", object_name: str = DEFAULT_OBJECT) -> str:

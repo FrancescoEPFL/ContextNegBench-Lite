@@ -182,8 +182,16 @@ def metric_rows_for_comparisons(scenario: str, wide: pd.DataFrame, bootstrap_sam
     rows = []
     with_rows = wide[wide["condition"] == "with_object"]
     metric_defs: list[tuple[str, list[PairComparison], Callable[[pd.DataFrame, PairComparison], pd.Series]]] = [
-        ("mean_positive_specificity_gain", POSITIVE_SPECIFICITY_COMPARISONS, lambda frame, pair: frame[pair.first_caption_id] - frame[pair.second_caption_id]),
-        ("generic_dominance_rate", POSITIVE_SPECIFICITY_COMPARISONS, lambda frame, pair: frame[pair.second_caption_id] > frame[pair.first_caption_id]),
+        (
+            "mean_positive_specificity_gain",
+            POSITIVE_SPECIFICITY_COMPARISONS,
+            lambda frame, pair: frame[pair.first_caption_id] - frame[pair.second_caption_id],
+        ),
+        (
+            "generic_dominance_rate",
+            POSITIVE_SPECIFICITY_COMPARISONS,
+            lambda frame, pair: frame[pair.second_caption_id] > frame[pair.first_caption_id],
+        ),
         ("mean_prefix_gain", PREFIX_GAIN_COMPARISONS, lambda frame, pair: frame[pair.first_caption_id] - frame[pair.second_caption_id]),
         ("mean_visible_gain", VISIBLE_GAIN_COMPARISONS, lambda frame, pair: frame[pair.first_caption_id] - frame[pair.second_caption_id]),
         (

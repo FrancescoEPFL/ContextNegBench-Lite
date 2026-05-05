@@ -1,0 +1,28 @@
+{
+  "description": "Frozen public result table validation and fingerprints.",
+  "dog_grass_rows": 180,
+  "final_contextneg_rows": 510,
+  "fingerprints": [
+    {
+      "bytes": 21738,
+      "path": "results/model_matrix_summary/dog_grass_by_model.csv",
+      "sha256": "cc97b8e2ea9fc6c93435794dd06f2be9ffdcade1242e4498b098c066d01bbd45"
+    },
+    {
+      "bytes": 63592,
+      "path": "results/model_matrix_summary/final_contextneg_by_model.csv",
+      "sha256": "943636ea5d0dc038ca66b83a9e7be4b4143dc2be316ef71930191fa05d29dd66"
+    },
+    {
+      "bytes": 12850,
+      "path": "results/model_matrix_summary/summary.md",
+      "sha256": "c6209c141c789972e12e9c9fb824047866ad749de32558f37f5b0abe50be8404"
+    },
+    {
+      "bytes": 842,
+      "path": "results/human_sanity_table.csv",
+      "sha256": "e354cea9ba0cec839ca9131b0eb9fc7000d877e9da04360d1c47c3261390d5ea"
+    }
+  ],
+  "mode": "full"
+}

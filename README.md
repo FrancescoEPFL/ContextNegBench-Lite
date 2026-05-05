@@ -4,6 +4,8 @@
 
 **A low-compute semantic embedding analysis of negation, object specificity, and logical connectors in CLIP-style models.**
 
+![Diagnostic example](results/selected_figures/main_diagnostic_example.png)
+
 ## Abstract
 
 CLIP-style models embed images and text into a shared vector space, then compare image-text similarity. Prior work has shown that these models can struggle with negation and compositional meaning, especially when small linguistic changes reverse the truth of a caption.
@@ -64,6 +66,14 @@ Text-only analyses:
 - logical connector embeddings
 
 See [docs/methodology.md](docs/methodology.md) for dataset creation, human review, scoring, and confidence interval details.
+
+## What A Reviewer Should Notice
+
+- Research question: a narrow diagnostic for false object-specific negation, not a broad claim that CLIP "does not understand negation."
+- Pipeline: collect/review images, encode frozen image/text embeddings, score caption sets, aggregate prompt-pair metrics, report limitations.
+- Model matrix: the main dog/grass result is checked across six CLIP-style model presets.
+- Controls: fully correct positive captions usually stay top-ranked, and detailed generic captions weaken the false-negation effect.
+- Reproducibility stance: web datasets are not redistributed, but summary tables, figures, code, tests, CI, and a license-safe synthetic demo are included.
 
 ## Key Metrics
 
@@ -186,7 +196,35 @@ Downloaded images are not committed by default. Users can recreate candidate dat
 
 The repository keeps scripts, metadata conventions, selected result CSVs, and selected figures. Local `raw/`, `reviewed/`, `metadata/`, and review-gallery files are ignored by default.
 
+The folder [data/sample_synthetic/](data/sample_synthetic/) contains a small generated CC0 demo dataset for smoke tests and pipeline checks. It is not used for the main research result.
+
 Precomputed summary reports are available in [results/model_matrix_summary/](results/model_matrix_summary/).
+
+The full narrative report is available at [results/full_research_report.md](results/full_research_report.md).
+
+Release notes for the frozen public snapshot are in [docs/release_v0.1.0.md](docs/release_v0.1.0.md).
+
+## Reviewer Quick Path
+
+Fast path, no model download and no web data:
+
+```powershell
+python scripts/smoke_test.py
+python scripts/reproduce_paper_tables.py --small
+python scripts/validate_result_schemas.py
+```
+
+What each path requires:
+
+| path | command | expected time | needs GPU | needs reviewed web data | output |
+| --- | --- | ---: | --- | --- | --- |
+| Smoke test | `python scripts/smoke_test.py` | < 1 min | no | no | temporary synthetic run |
+| Small demo | `python scripts/reproduce_paper_tables.py --small` | ~1-2 min | no | no | `results/sample_synthetic_demo/` |
+| Frozen tables | `python scripts/reproduce_paper_tables.py --full` | < 1 min | no | no | result hashes and schema checks |
+| Main dog/grass rerun | `python scripts/run_dog_grass_false_negation_analysis.py ...` | minutes to hours | recommended | yes | full dog/grass metrics |
+| Model matrix | `python scripts/run_model_matrix.py ...` | hours on CPU | recommended | yes | multi-model result folders |
+
+CI status is visible in the badge above and in the latest [GitHub Actions runs](https://github.com/FrancescoEPFL/ContextNegBench-Lite/actions/workflows/ci.yml).
 
 ## Quick Start
 
@@ -205,6 +243,29 @@ python scripts/run_dog_grass_false_negation_analysis.py `
   --output results/dog_grass_false_negation `
   --bootstrap-samples 1000 `
   --batch-size 8
+```
+
+## How To Reproduce Table 1
+
+Table 1 in this README is the dog/grass model-matrix table. The frozen public CSV can be validated and fingerprinted without downloading images:
+
+```powershell
+python scripts/reproduce_paper_tables.py --full
+```
+
+To recompute it from scratch, recreate and review the dog/grass dataset, then run:
+
+```powershell
+python scripts/run_model_matrix.py `
+  --models openclip_vit_b32 openclip_vit_b32_openai openclip_vit_b32_datacomp openclip_rn50 openclip_vit_b16_openai openclip_vit_b16_siglip `
+  --analyses dog_grass `
+  --output-root results/model_matrix `
+  --bootstrap-samples 1000 `
+  --batch-size 8
+
+python scripts/aggregate_model_matrix.py `
+  --root results/model_matrix `
+  --output results/model_matrix_summary
 ```
 
 ## Reproduction
@@ -275,6 +336,24 @@ python -m pytest -q
 
 More collection and run commands are in [docs/runbook.md](docs/runbook.md).
 
+## Pipeline
+
+```mermaid
+flowchart LR
+  A["Collect candidate images"] --> B["Human review"]
+  B --> C["Encode frozen image/text embeddings"]
+  C --> D["Score caption sets"]
+  D --> E["Aggregate metrics + bootstrap CIs"]
+  E --> F["Reports, figures, and result tables"]
+```
+
+## Known Failure Cases
+
+- Prompt wording matters: `no visible X`, `without X`, and `with no X` are not interchangeable.
+- Scenario choice matters: `person_beach` is cleaner than `bicycle_street`, while `kitchen_table` is strongly model-dependent.
+- True-but-generic captions are vulnerable; true detailed-generic captions reduce the effect.
+- The text-space negation direction is structured, but image-text ranking does not treat it as a hard logical constraint.
+
 ## Repository Map
 
 ```text
@@ -287,6 +366,7 @@ docs/
   appendix_logical_connectors.md
   appendix_negation_delta.md
 scripts/
+notebooks/
 src/
 tests/
 results/

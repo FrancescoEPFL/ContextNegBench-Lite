@@ -595,10 +595,7 @@ def test_specificity_metrics_from_fake_scores():
     scores = pd.DataFrame(rows)
     wide = scores_to_wide(scores)
     metrics = compute_specificity_metrics_with_ci(scores, bootstrap_samples=20, seed=1)
-    lookup = {
-        (row["metric"], row["comparison_id"]): row["value"]
-        for _, row in metrics.iterrows()
-    }
+    lookup = {(row["metric"], row["comparison_id"]): row["value"] for _, row in metrics.iterrows()}
 
     assert wide.iloc[0]["positive_base"] == pytest.approx(0.55)
     assert lookup[("mean_positive_specificity_gain", "base")] == pytest.approx(0.15)

@@ -1,0 +1,118 @@
+{
+  "config": {
+    "background": "white",
+    "colors": [
+      "red",
+      "blue",
+      "green",
+      "yellow",
+      "purple",
+      "orange"
+    ],
+    "image_size": 224,
+    "noise": "clean",
+    "object_size": 54,
+    "samples_per_task": 3,
+    "seed": 101,
+    "shapes": [
+      "square",
+      "circle",
+      "triangle",
+      "star"
+    ],
+    "tasks": [
+      "attribute_binding",
+      "spatial_left_right",
+      "spatial_above_below",
+      "counting",
+      "negation"
+    ]
+  },
+  "description": "Small generated geometric dataset for license-safe pipeline demos.",
+  "files": [
+    {
+      "bytes": 11710,
+      "path": "annotations.jsonl",
+      "sha256": "8b979cfe9c5d8a725a5de0681f999d4b2b345ce0310d077e2c1cf3bb3f050e67"
+    },
+    {
+      "bytes": 1105,
+      "path": "images/attribute_binding_000000.png",
+      "sha256": "83b8ee5f6d5a32d5b2c6f8055f354a6cbf156660f5fb05b3c3672f078f01f890"
+    },
+    {
+      "bytes": 1076,
+      "path": "images/attribute_binding_000001.png",
+      "sha256": "e92a708767c011a12218c298fb474867cfc5d4a184bd08258f827473ff9c5099"
+    },
+    {
+      "bytes": 924,
+      "path": "images/attribute_binding_000002.png",
+      "sha256": "272b6cf59b05e4aa542ee1ca44c0808d5625eda6ff497f15127b6578e934eb9a"
+    },
+    {
+      "bytes": 1010,
+      "path": "images/counting_000009.png",
+      "sha256": "fd2152c6689ff83b4b37ee4a3e2d6b1a1e3b25d912eddb03ab7123419b071d9c"
+    },
+    {
+      "bytes": 1009,
+      "path": "images/counting_000010.png",
+      "sha256": "d5d50b3bfcf4a3a782f272f0d89c9a1e613e1cf8c3b1c5c12e8a8901d8eda10a"
+    },
+    {
+      "bytes": 1127,
+      "path": "images/counting_000011.png",
+      "sha256": "49bfb774e7692fd77733af0259f806f223008b47fdab6d54f8604f09aa148ddf"
+    },
+    {
+      "bytes": 701,
+      "path": "images/negation_000012.png",
+      "sha256": "8a16b846682115075bd57ea96ba2d7c23a29742a7159201e87287812f18c08eb"
+    },
+    {
+      "bytes": 942,
+      "path": "images/negation_000013.png",
+      "sha256": "78638c0100acd0fdcc23aed0dac635420af0d34ec84cc9178ead6a9d59651600"
+    },
+    {
+      "bytes": 702,
+      "path": "images/negation_000014.png",
+      "sha256": "3a87a358b79de22218b5023b5f618275cae0ce17d8498ecdf1fcf86ca6554db3"
+    },
+    {
+      "bytes": 1016,
+      "path": "images/spatial_above_below_000006.png",
+      "sha256": "f3f0845a83821ab4f11dc6d4ffb7070bec775515cf7ee0ce5f5d3bf7933e192e"
+    },
+    {
+      "bytes": 886,
+      "path": "images/spatial_above_below_000007.png",
+      "sha256": "884c08f235c6a55040c3fc0cb157baf207a48f6f946e94a56cb7296ccc04bca4"
+    },
+    {
+      "bytes": 1067,
+      "path": "images/spatial_above_below_000008.png",
+      "sha256": "03d3bc12747f09dfe6e96d3d99336acc15ec8ef8ce0d9593158ddd96dd331b8c"
+    },
+    {
+      "bytes": 901,
+      "path": "images/spatial_left_right_000003.png",
+      "sha256": "37efe79a1685befe35cb230a79700a9e5f4c84fd2d31c5bfad6945a40b1e50f7"
+    },
+    {
+      "bytes": 947,
+      "path": "images/spatial_left_right_000004.png",
+      "sha256": "d1be60f484ebff12a8086a0445db2b342f5c9f21c57338e09186a4bb358d39e6"
+    },
+    {
+      "bytes": 1078,
+      "path": "images/spatial_left_right_000005.png",
+      "sha256": "f7ed2733cef70314d49d8e2778c1535021bc1dc9087f3392db919bb0f438ca3b"
+    }
+  ],
+  "license": "CC0-1.0",
+  "n_samples": 15,
+  "name": "sample_synthetic",
+  "source": "Generated locally by scripts/generate_sample_synthetic_dataset.py."
+}

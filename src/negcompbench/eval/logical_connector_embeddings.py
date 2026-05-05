@@ -195,7 +195,9 @@ def compute_pairwise_distance_metrics(objects: list[str], embedding_map: dict[st
     return pd.DataFrame(rows)
 
 
-def compute_operator_delta_outputs(objects: list[str], embedding_map: dict[str, np.ndarray], output_dir: Path) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
+def compute_operator_delta_outputs(
+    objects: list[str], embedding_map: dict[str, np.ndarray], output_dir: Path
+) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
     summary_rows = []
     pca_rows = []
     projection_rows = []
@@ -258,7 +260,9 @@ def operator_delta_rows(objects: list[str], operator: UnaryOperator, embedding_m
     return rows, np.vstack(delta_units)
 
 
-def compute_operator_baseline_comparison(objects: list[str], operators: list[UnaryOperator], embedding_map: dict[str, np.ndarray], seed: int = 42) -> pd.DataFrame:
+def compute_operator_baseline_comparison(
+    objects: list[str], operators: list[UnaryOperator], embedding_map: dict[str, np.ndarray], seed: int = 42
+) -> pd.DataFrame:
     rows = []
     for operator in operators:
         _, real_units = operator_delta_rows(objects, operator, embedding_map)
@@ -277,9 +281,24 @@ def compute_operator_baseline_comparison(objects: list[str], operators: list[Una
         mismatch_mean = mean_pairwise_cosine(np.vstack(mismatch_units))
         rows.extend(
             [
-                {"operator": operator.operator, "baseline_type": "real_operator_delta", "mean_pairwise_cosine": real_mean, "real_minus_baseline": 0.0},
-                {"operator": operator.operator, "baseline_type": "object_object_delta", "mean_pairwise_cosine": object_mean, "real_minus_baseline": real_mean - object_mean},
-                {"operator": operator.operator, "baseline_type": "mismatched_operator_delta", "mean_pairwise_cosine": mismatch_mean, "real_minus_baseline": real_mean - mismatch_mean},
+                {
+                    "operator": operator.operator,
+                    "baseline_type": "real_operator_delta",
+                    "mean_pairwise_cosine": real_mean,
+                    "real_minus_baseline": 0.0,
+                },
+                {
+                    "operator": operator.operator,
+                    "baseline_type": "object_object_delta",
+                    "mean_pairwise_cosine": object_mean,
+                    "real_minus_baseline": real_mean - object_mean,
+                },
+                {
+                    "operator": operator.operator,
+                    "baseline_type": "mismatched_operator_delta",
+                    "mean_pairwise_cosine": mismatch_mean,
+                    "real_minus_baseline": real_mean - mismatch_mean,
+                },
             ]
         )
     return pd.DataFrame(rows)
@@ -371,23 +390,19 @@ def neighbor_category(phrase: str) -> str:
     return "other"
 
 
-def compute_object_dominance_index(objects: list[str], operators: list[UnaryOperator], embedding_map: dict[str, np.ndarray]) -> pd.DataFrame:
+def compute_object_dominance_index(
+    objects: list[str], operators: list[UnaryOperator], embedding_map: dict[str, np.ndarray]
+) -> pd.DataFrame:
     rows = []
     for operator in operators:
         operator_embeddings = {
-            object_name: embedding_map[format_object_phrase(operator.operator_template, object_name)]
-            for object_name in objects
+            object_name: embedding_map[format_object_phrase(operator.operator_template, object_name)] for object_name in objects
         }
-        base_embeddings = {
-            object_name: embedding_map[format_object_phrase("a {object}", object_name)]
-            for object_name in objects
-        }
+        base_embeddings = {object_name: embedding_map[format_object_phrase("a {object}", object_name)] for object_name in objects}
         for object_name in objects:
             own_similarity = cosine_similarity(operator_embeddings[object_name], base_embeddings[object_name])
             other_similarities = [
-                cosine_similarity(operator_embeddings[object_name], operator_embeddings[other])
-                for other in objects
-                if other != object_name
+                cosine_similarity(operator_embeddings[object_name], operator_embeddings[other]) for other in objects if other != object_name
             ]
             other_mean = float(np.mean(other_similarities))
             rows.append(
@@ -439,7 +454,9 @@ def make_logical_connector_plots(
     binary: pd.DataFrame,
     plots_dir: Path,
 ) -> None:
-    plot_operator_bar(operator_summary, "mean_delta_direction_similarity", plots_dir / "operator_delta_consistency.png", "Operator Delta Consistency")
+    plot_operator_bar(
+        operator_summary, "mean_delta_direction_similarity", plots_dir / "operator_delta_consistency.png", "Operator Delta Consistency"
+    )
     pc1 = operator_pca[operator_pca["component"] == "PC1"]
     plot_operator_bar(pc1, "explained_variance_ratio", plots_dir / "operator_pc1_explained_variance.png", "Operator PC1 Explained Variance")
     plot_object_dominance(dominance, plots_dir / "object_dominance_by_operator.png")
@@ -497,7 +514,9 @@ def plot_distance_metrics(frame: pd.DataFrame, output_path: Path) -> None:
 def plot_neighbor_categories(frame: pd.DataFrame, output_path: Path) -> None:
     import matplotlib.pyplot as plt
 
-    counts = frame[frame["metric"] == "cosine_similarity"].pivot_table(index="target_phrase", columns="neighbor_category", values="rank", aggfunc="count", fill_value=0)
+    counts = frame[frame["metric"] == "cosine_similarity"].pivot_table(
+        index="target_phrase", columns="neighbor_category", values="rank", aggfunc="count", fill_value=0
+    )
     totals = counts.sum(axis=0).sort_values(ascending=False)
     fig, ax = plt.subplots(figsize=(8, 4.5))
     totals.plot(kind="bar", ax=ax, color="#8a6f3d")
