@@ -1,5 +1,7 @@
 # When False Negation Beats Partial Truth: Object Specificity in CLIP Image-Text Matching
 
+[![CI](https://github.com/FrancescoEPFL/ContextNegBench-Lite/actions/workflows/ci.yml/badge.svg)](https://github.com/FrancescoEPFL/ContextNegBench-Lite/actions/workflows/ci.yml)
+
 **A low-compute semantic embedding analysis of negation, object specificity, and logical connectors in CLIP-style models.**
 
 ## Abstract
@@ -187,6 +189,12 @@ The repository keeps scripts, metadata conventions, selected result CSVs, and se
 Precomputed summary reports are available in [results/model_matrix_summary/](results/model_matrix_summary/).
 
 ## Quick Start
+
+Run a lightweight smoke test without downloading model weights or web images:
+
+```powershell
+python scripts/smoke_test.py
+```
 
 Run the main dog/grass diagnostic with the default OpenCLIP ViT-B/32 model:
 
