@@ -7,6 +7,60 @@
 
 It asks whether a false negated caption that names a visible object can outrank a true but underspecified caption.
 
+## Reviewer Summary
+
+- This repository is a lightweight diagnostic study of CLIP-style vision-language models, focused on negation, object specificity, and caption ranking.
+- Main result: false negated captions that mention a visible object can often outrank true but underspecified captions, while the fully correct positive caption usually remains top-ranked.
+- It does **not** claim that CLIP never understands negation, that CLIP is purely bag-of-words, or that false captions generally beat true captions.
+- The project is relevant to VLM evaluation and research engineering because it packages a narrow failure mode into reproducible scripts, frozen summary tables, CI checks, and transparent limitations.
+- Start with [PROJECT_CARD.md](PROJECT_CARD.md), [results/model_matrix_summary/summary.md](results/model_matrix_summary/summary.md), and [docs/methodology.md](docs/methodology.md).
+
+## Project Status
+
+| item | status |
+| --- | --- |
+| Version | `v0.1.0` research artifact |
+| Scope | frozen-embedding diagnostic, not a production benchmark |
+| Intended use | low-compute evaluation and transparent result inspection |
+| Small demo | reproducible from the public repo |
+| Full experiment rerun | requires local reviewed images and model downloads |
+| Latest CI | [success](https://github.com/FrancescoEPFL/ContextNegBench-Lite/actions/workflows/ci.yml) |
+| Frozen release | [v0.1.0](https://github.com/FrancescoEPFL/ContextNegBench-Lite/releases/tag/v0.1.0) |
+
+## Run in 2 Minutes
+
+Install and verify the code path without reviewed images or model downloads:
+
+```powershell
+python -m pip install -e ".[dev]"
+python -m pytest -q
+python scripts/smoke_test.py
+```
+
+Inspect and validate public result artifacts:
+
+```powershell
+python scripts/reproduce_paper_tables.py --small
+python scripts/reproduce_paper_tables.py --full
+python scripts/validate_result_schemas.py
+```
+
+What to inspect first:
+
+- [PROJECT_CARD.md](PROJECT_CARD.md): one-page summary of what was built and what skills it demonstrates.
+- [results/model_matrix_summary/summary.md](results/model_matrix_summary/summary.md): compact frozen result summary.
+- [results/full_research_report.md](results/full_research_report.md): complete narrative report.
+- [scripts/README.md](scripts/README.md): main entrypoints by task.
+- [results/README.md](results/README.md): result folder guide.
+
+Commands that require local reviewed images and/or model downloads:
+
+| task | command | requires |
+| --- | --- |
+| Dog/grass rerun | `python scripts/run_dog_grass_false_negation_analysis.py ...` | reviewed dog/grass images, OpenCLIP weights |
+| With/without scenarios | `python scripts/run_final_contextneg_analysis.py ...` | reviewed scenario images, OpenCLIP weights |
+| Model matrix | `python scripts/run_model_matrix.py ...` | reviewed images, multiple model downloads |
+
 ![Diagnostic example](results/selected_figures/main_diagnostic_example.png)
 
 ## What This Project Shows
@@ -21,39 +75,9 @@ Core claim:
 false object-specific negation can beat true underspecified descriptions
 ```
 
-## For Recruiters / Reviewers: Run In 2 Minutes
-
-No model download and no web data are required for the quick path:
-
-```powershell
-python scripts/smoke_test.py
-python scripts/reproduce_paper_tables.py --small
-python scripts/reproduce_paper_tables.py --full
-python scripts/validate_result_schemas.py
-```
-
-What to inspect first:
-
-- [PROJECT_CARD.md](PROJECT_CARD.md): one-page summary of what was built and what skills it demonstrates.
-- [results/model_matrix_summary/summary.md](results/model_matrix_summary/summary.md): compact frozen result summary.
-- [results/full_research_report.md](results/full_research_report.md): complete narrative report.
-- [scripts/README.md](scripts/README.md): main entrypoints by task.
-- [results/README.md](results/README.md): result folder guide.
-
-Status:
-
-| item | status |
-| --- | --- |
-| Project status | `v0.1.0` research artifact |
-| Fully reproducible small demo | yes |
-| Public result validation | yes |
-| Full experiment rerun from this repo alone | partial; reviewed web images are not redistributed |
-| Latest CI | [success](https://github.com/FrancescoEPFL/ContextNegBench-Lite/actions/workflows/ci.yml) |
-| Frozen release | [v0.1.0](https://github.com/FrancescoEPFL/ContextNegBench-Lite/releases/tag/v0.1.0) |
-
 ## Key Result
 
-Main diagnostic: 74 reviewed images of dogs visible on grass. Two prompt pairs are shown:
+Core experiment: 74 reviewed dog/grass images. Two prompt pairs are shown:
 
 - `core`: `an image with no dog` vs `an image of a grassy field`
 - `field`: `a grassy field with no dog` vs `a grassy field`
