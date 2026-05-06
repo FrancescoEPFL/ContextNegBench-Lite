@@ -29,10 +29,10 @@ false object-specific negation can beat true underspecified descriptions
 
 This does not mean false captions generally beat true captions. The fully correct positive caption usually remains top-ranked.
 
-## Suggested CV Bullet
+##  Bullet
 
 Built `ContextNegBench-Lite`, a lightweight diagnostic framework for CLIP-style vision-language models, testing when false object-specific negation captions outrank true but underspecified descriptions across multiple OpenCLIP/SigLIP-style presets.
 
-## Suggested Interview Explanation
+## More Explanation
 
 I avoided a broad claim like "CLIP does not understand negation" and designed a narrower diagnostic. For a dog-on-grass image, I tested whether a false caption like `an image with no dog` can score above a true but generic caption like `an image of a grassy field`. The result was often yes, but the fully correct caption usually remained top-ranked. So the failure mode is about object specificity overpowering weak absence semantics, not false captions generally beating true captions.
